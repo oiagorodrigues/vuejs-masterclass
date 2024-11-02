@@ -16,4 +16,11 @@ export default [
   ...pluginVue.configs['flat/essential'],
   ...vueTsEslintConfig(),
   skipFormatting,
+
+  {
+    rules: {
+      // not needed when using unplugin-vue-router
+      'vue/multi-word-component-names': 0,
+    },
+  },
 ]
