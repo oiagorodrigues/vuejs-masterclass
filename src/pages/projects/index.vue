@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { h, ref } from 'vue'
+import { RouterLink } from 'vue-router'
 
 import type { ColumnDef } from '@tanstack/vue-table'
 
@@ -7,7 +7,6 @@ import { supabase } from '@/lib/supabaseClient'
 import DataTable from '@/components/ui/data-table/DataTable.vue'
 
 import type { Tables } from '../../../database/types'
-import { RouterLink } from 'vue-router'
 
 const projects = ref<Tables<'projects'>[] | null>()
 
