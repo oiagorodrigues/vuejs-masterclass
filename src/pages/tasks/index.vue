@@ -30,7 +30,7 @@ const columns: ColumnDef<Tables<'tasks'>>[] = [
       return h(
         RouterLink,
         { to: `/tasks/${row.original.id}`, class: 'hover:underline' },
-        row.original.name
+        () => row.getValue('name')
       )
     },
   },
