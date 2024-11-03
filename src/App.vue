@@ -1,46 +1,20 @@
 <script setup lang="ts">
-import { Input } from '@/components/ui/input'
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import TopNavbar from '@/components/Layout/TopNavbar.vue'
+import Sidebar from '@/components/Layout/Sidebar.vue'
 </script>
 
 <template>
-  <nav class="h-16 border-b bg-muted/40 flex justify-between items-center px-6">
-    <form class="w-full max-w-96">
-      <Input type="text" placeholder="search" />
-    </form>
+  <Sidebar />
 
-    <DropdownMenu>
-      <DropdownMenuTrigger>
-        <Avatar>
-          <AvatarImage
-            src="https://github.com/radix-vue.png"
-            alt="@radix-vue"
-          />
-          <AvatarFallback>CN</AvatarFallback>
-        </Avatar>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent>
-        <DropdownMenuLabel>My Account</DropdownMenuLabel>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem>Profile</DropdownMenuItem>
-        <DropdownMenuItem>Billing</DropdownMenuItem>
-        <DropdownMenuItem>Team</DropdownMenuItem>
-        <DropdownMenuItem>Subscription</DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
-  </nav>
+  <div class="flex flex-col lg:ml-52 ml-16 transition-[margin]">
+    <TopNavbar />
 
-  <main>
-    <RouterView />
-  </main>
+    <main class="flex flex-col flex-1 gap-4 p-4 lg:gap-6 lg:p-6">
+      <div class="flex items-center">
+        <h1 class="text-lg font-semibold md:text-2xl">Page Title</h1>
+      </div>
+
+      <RouterView />
+    </main>
+  </div>
 </template>
-
-<style scoped></style>
