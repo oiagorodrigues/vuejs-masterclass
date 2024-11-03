@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import SidebarLinks, { type LinkProp } from './SidebarLinks.vue'
-import { Button } from '@/components/ui/button'
+import { type LinkProp } from './SidebarLinks.vue'
 
 const links: LinkProp[] = [
   {

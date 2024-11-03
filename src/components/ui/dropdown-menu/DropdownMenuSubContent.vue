@@ -6,12 +6,13 @@ import {
   type DropdownMenuSubContentProps,
   useForwardPropsEmits,
 } from 'radix-vue'
-import { computed, type HTMLAttributes } from 'vue'
+import { type HTMLAttributes } from 'vue'
 
 const props = defineProps<DropdownMenuSubContentProps & { class?: HTMLAttributes['class'] }>()
 const emits = defineEmits<DropdownMenuSubContentEmits>()
 
 const delegatedProps = computed(() => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { class: _, ...delegated } = props
 
   return delegated

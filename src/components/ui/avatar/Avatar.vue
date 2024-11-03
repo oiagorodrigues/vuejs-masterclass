@@ -2,7 +2,7 @@
 import type { HTMLAttributes } from 'vue'
 import { cn } from '@/lib/utils'
 import { AvatarRoot } from 'radix-vue'
-import { avatarVariant, type AvatarVariants } from '.'
+import { avatarVariant, type AvatarVariants } from './types'
 
 const props = withDefaults(defineProps<{
   class?: HTMLAttributes['class']

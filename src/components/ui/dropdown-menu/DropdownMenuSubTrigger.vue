@@ -6,11 +6,12 @@ import {
   type DropdownMenuSubTriggerProps,
   useForwardProps,
 } from 'radix-vue'
-import { computed, type HTMLAttributes } from 'vue'
+import { type HTMLAttributes } from 'vue'
 
 const props = defineProps<DropdownMenuSubTriggerProps & { class?: HTMLAttributes['class'] }>()
 
 const delegatedProps = computed(() => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { class: _, ...delegated } = props
 
   return delegated
