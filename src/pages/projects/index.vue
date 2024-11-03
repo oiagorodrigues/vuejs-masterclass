@@ -1,7 +1,13 @@
 <script setup lang="ts">
+import { h, ref } from 'vue'
+
+import type { ColumnDef } from '@tanstack/vue-table'
+
 import { supabase } from '@/lib/supabaseClient'
-import { ref } from 'vue'
+import DataTable from '@/components/ui/data-table/DataTable.vue'
+
 import type { Tables } from '../../../database/types'
+import { RouterLink } from 'vue-router'
 
 const projects = ref<Tables<'projects'>[] | null>()
 
@@ -15,35 +21,41 @@ const projects = ref<Tables<'projects'>[] | null>()
 
   projects.value = data
 })()
+
+const columns: ColumnDef<Tables<'projects'>>[] = [
+  {
+    accessorKey: 'name',
+    header: 'Name',
+    cell: ({ row }) => {
+      return h(
+        RouterLink,
+        { to: `/projects/${row.original.slug}`, class: 'hover:underline' },
+        row.original.name
+      )
+    },
+  },
+  {
+    accessorKey: 'status',
+    header: 'Status',
+  },
+  {
+    accessorKey: 'collaborators',
+    header: 'Collaborators',
+  },
+]
 </script>
 
 <template>
-  <RouterLink to="/">Home</RouterLink>
-
-  <section>
-    <h2>Projects</h2>
-
-    <table style="width: 100%">
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Status</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="project in projects" :key="project.id">
-          <td>{{ project.name }}</td>
-          <td>
-            {{ project.status === 'in-progress' ? 'In Progress' : 'Completed' }}
-          </td>
-          <td style="text-align: center">
-            <RouterLink :to="`/projects/${project.id}`">View</RouterLink>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </section>
+  <DataTable v-if="projects" :data="projects" :columns="columns">
+    <template #cell-name="{ cell }">
+      <RouterLink
+        :to="`/projects/${cell.row.original.slug}`"
+        class="hover:underline"
+      >
+        {{ cell.getValue() }}
+      </RouterLink>
+    </template>
+  </DataTable>
 </template>
 
 <style scoped></style>

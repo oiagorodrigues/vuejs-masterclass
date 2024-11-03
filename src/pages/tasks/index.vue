@@ -1,9 +1,15 @@
 <script setup lang="ts">
-import { supabase } from '@/lib/supabaseClient'
-import { ref } from 'vue'
-import type { Tables } from '../../../database/types'
+import { h, ref } from 'vue'
 
-const tasks = ref<Tables<'tasks'>[] | null>()
+import { supabase } from '@/lib/supabaseClient'
+import type { ColumnDef } from '@tanstack/vue-table'
+
+import DataTable from '@/components/ui/data-table/DataTable.vue'
+
+import type { Tables } from '../../../database/types'
+import { RouterLink } from 'vue-router'
+
+const tasks = ref<Tables<'tasks'>[] | null>([])
 
 ;(async () => {
   const { data, error } = await supabase.from('tasks').select('*')
@@ -15,35 +21,40 @@ const tasks = ref<Tables<'tasks'>[] | null>()
 
   tasks.value = data
 })()
+
+const columns: ColumnDef<Tables<'tasks'>>[] = [
+  {
+    accessorKey: 'name',
+    header: 'Name',
+    cell: ({ row }) => {
+      return h(
+        RouterLink,
+        { to: `/tasks/${row.original.id}`, class: 'hover:underline' },
+        row.original.name
+      )
+    },
+  },
+  {
+    accessorKey: 'status',
+    header: 'Status',
+  },
+  {
+    accessorKey: 'due_date',
+    header: 'Due date',
+  },
+  {
+    accessorKey: 'project_id',
+    header: 'Project id',
+  },
+  {
+    accessorKey: 'collaborators',
+    header: 'Collaborators',
+  },
+]
 </script>
 
 <template>
-  <RouterLink to="/">Home</RouterLink>
-
-  <section>
-    <h2>Tasks</h2>
-
-    <table style="width: 100%">
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Status</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="task in tasks" :key="task.id">
-          <td>{{ task.name }}</td>
-          <td>
-            {{ task.status === 'in-progress' ? 'In Progress' : 'Completed' }}
-          </td>
-          <td style="text-align: center">
-            <RouterLink :to="`/tasks/${task.id}`">View</RouterLink>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </section>
+  <DataTable v-if="tasks" :columns="columns" :data="tasks" />
 </template>
 
 <style scoped></style>
