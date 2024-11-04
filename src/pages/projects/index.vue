@@ -7,9 +7,7 @@ import { supabase } from '@/lib/supabaseClient'
 
 import type { Tables } from '../../../database/types'
 
-const projects = ref<Tables<'projects'>[] | null>()
-
-;(async () => {
+const fetchProject = async () => {
   const { data, error } = await supabase.from('projects').select('*')
 
   if (error) {
@@ -17,8 +15,10 @@ const projects = ref<Tables<'projects'>[] | null>()
     return
   }
 
-  projects.value = data
-})()
+  return data
+}
+
+const projects = await fetchProject()
 
 const columns: ColumnDef<Tables<'projects'>>[] = [
   {
