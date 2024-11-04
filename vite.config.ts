@@ -39,10 +39,14 @@ export default defineConfig({
         // presets
         'vue',
         VueRouterAutoImports,
+        {
+          pinia: ['defineStore', 'storeToRefs', 'acceptHMRUpdate'],
+        },
       ],
       dts: true,
       // Include auto-imported packages in Vite's `optimizeDeps` options
       viteOptimizeDeps: true,
+      dirs: ['src/stores'],
     }),
     Components(),
     vueDevTools(),

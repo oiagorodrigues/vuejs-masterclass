@@ -7,6 +7,8 @@ import { supabase } from '@/lib/supabaseClient'
 
 import type { Tables } from '../../../database/types'
 
+usePageStore().page.title = 'My tasks';
+
 const fetchTasks = async () => {
   const { data, error } = await supabase.from('tasks').select('*')
 
