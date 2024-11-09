@@ -1,56 +1,24 @@
 <script setup lang="ts">
-import { RouterLink } from 'vue-router'
+import { columns } from '@/utils/table/tasks'
+import {
+  fetchTasksWithProjectsQuery,
+  type TaskWithProjects,
+} from '@/utils/queries/tasks'
 
-import type { ColumnDef } from '@tanstack/vue-table'
-
-import { supabase } from '@/lib/supabaseClient'
-
-import type { Tables } from '../../../database/types'
-
-usePageStore().page.title = 'My tasks';
+usePageStore().page.title = 'My tasks'
 
 const fetchTasks = async () => {
-  const { data, error } = await supabase.from('tasks').select('*')
+  const { data, error } = await fetchTasksWithProjectsQuery()
 
   if (error) {
     console.error(error)
-    return
+    return [] as TaskWithProjects[]
   }
 
   return data
 }
 
 const tasks = await fetchTasks()
-
-const columns: ColumnDef<Tables<'tasks'>>[] = [
-  {
-    accessorKey: 'name',
-    header: 'Name',
-    cell: ({ row }) => {
-      return h(
-        RouterLink,
-        { to: `/tasks/${row.original.id}`, class: 'hover:underline' },
-        () => row.getValue('name')
-      )
-    },
-  },
-  {
-    accessorKey: 'status',
-    header: 'Status',
-  },
-  {
-    accessorKey: 'due_date',
-    header: 'Due date',
-  },
-  {
-    accessorKey: 'project_id',
-    header: 'Project id',
-  },
-  {
-    accessorKey: 'collaborators',
-    header: 'Collaborators',
-  },
-]
 </script>
 
 <template>

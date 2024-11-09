@@ -46,7 +46,7 @@ export default defineConfig({
       dts: true,
       // Include auto-imported packages in Vite's `optimizeDeps` options
       viteOptimizeDeps: true,
-      dirs: ['src/stores'],
+      dirs: ['src/stores', 'src/lib'],
     }),
     Components(),
     vueDevTools(),

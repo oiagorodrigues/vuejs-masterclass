@@ -1,48 +1,22 @@
 <script setup lang="ts">
 import { RouterLink } from 'vue-router'
+import { fetchProjectsQuery, type Project } from '@/utils/queries/projects'
+import { columns } from '@/utils/table/projects'
 
-import type { ColumnDef } from '@tanstack/vue-table'
-
-import { supabase } from '@/lib/supabaseClient'
-
-import type { Tables } from '../../../database/types'
-
-usePageStore().page.title = 'My projects';
+usePageStore().page.title = 'My projects'
 
 const fetchProject = async () => {
-  const { data, error } = await supabase.from('projects').select('*')
+  const { data, error } = await fetchProjectsQuery()
 
   if (error) {
     console.error(error)
-    return
+    return [] as Project[]
   }
 
   return data
 }
 
 const projects = await fetchProject()
-
-const columns: ColumnDef<Tables<'projects'>>[] = [
-  {
-    accessorKey: 'name',
-    header: 'Name',
-    cell: ({ row }) => {
-      return h(
-        RouterLink,
-        { to: `/projects/${row.original.slug}`, class: 'hover:underline' },
-        row.original.name
-      )
-    },
-  },
-  {
-    accessorKey: 'status',
-    header: 'Status',
-  },
-  {
-    accessorKey: 'collaborators',
-    header: 'Collaborators',
-  },
-]
 </script>
 
 <template>
