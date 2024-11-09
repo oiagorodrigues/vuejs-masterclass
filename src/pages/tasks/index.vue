@@ -11,6 +11,7 @@ const fetchTasks = async () => {
   const { data, error } = await fetchTasksWithProjectsQuery()
 
   if (error) {
+    // TODO: show a toast notification with the error message
     console.error(error)
     return [] as TaskWithProjects[]
   }
